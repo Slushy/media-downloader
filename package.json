@@ -1,0 +1,18 @@
+{
+    "name": "media-downloader",
+    "version": "0.0.0",
+    "description": "A react-based electron desktop app for downloading youtube video and audio",
+    "author": "Brandon Porter <brandon.porter18@gmail.com>",
+    "license": "ISC",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Slushy/media-downloader.git"
+    },
+    "scripts": {
+        "start": "electron ."
+    },
+    "devDependencies": {
+        "electron": "^1.8.4"
+    }
+}
