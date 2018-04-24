@@ -16,9 +16,11 @@
         ]
     },
     "scripts": {
-        "build": "yarn run clean && parallel-webpack",
-        "dev": "yarn run build --watch",
+        "build": "npm-run-all clean lint -p build:*",
+        "build:webpack": "parallel-webpack",
         "clean": "rimraf dist/",
+        "dev": "npm-run-all clean -p \"lint --watch\" \"build:* --watch\"",
+        "lint": "esw web/**/*.js desktop/**/*.js",
         "start": "electron dist/main.js"
     },
     "devDependencies": {
@@ -28,10 +30,14 @@
         "babel-preset-react": "^6.24.1",
         "css-loader": "^0.28.11",
         "electron": "^1.8.4",
+        "eslint": "^4.19.1",
+        "eslint-plugin-react": "^7.7.0",
+        "eslint-watch": "^3.1.4",
         "extract-text-webpack-plugin": "^4.0.0-beta.0",
         "html-webpack-plugin": "^3.2.0",
         "html-webpack-template": "^6.2.0",
         "node-sass": "^4.8.3",
+        "npm-run-all": "^4.1.2",
         "parallel-webpack": "^2.3.0",
         "rimraf": "^2.6.2",
         "sass-loader": "^7.0.1",
