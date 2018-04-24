@@ -1,0 +1,8 @@
+{
+    "defaultSeverity": "warning",
+    "extends": "stylelint-config-sass-guidelines",
+    "rules": {
+        "indentation": 4
+    }
+  }
+  

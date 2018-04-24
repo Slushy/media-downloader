@@ -16,12 +16,14 @@
         ]
     },
     "scripts": {
-        "build": "npm-run-all clean lint -p build:*",
-        "build:webpack": "parallel-webpack",
+        "build": "run-s clean lint compile",
         "clean": "rimraf dist/",
-        "dev": "npm-run-all clean -p \"lint --watch\" \"build:* --watch\"",
-        "lint": "esw web/**/*.js desktop/**/*.js",
-        "start": "electron dist/main.js"
+        "compile": "parallel-webpack",
+        "lint": "run-p \"lint:* {@}\" --",
+        "lint:js": "esw web/**/*.js desktop/**/*.js",
+        "lint:scss": "stylelint web/**/*.scss",
+        "start": "electron dist/main.js",
+        "watch": "npm-run-all clean -p \"lint --watch\" \"compile --watch\""
     },
     "devDependencies": {
         "babel-core": "^6.26.0",
@@ -42,6 +44,8 @@
         "rimraf": "^2.6.2",
         "sass-loader": "^7.0.1",
         "style-loader": "^0.21.0",
+        "stylelint": "^9.2.0",
+        "stylelint-config-sass-guidelines": "^5.0.0",
         "webpack": "^4.6.0",
         "webpack-merge": "^4.1.2"
     },
