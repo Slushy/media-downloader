@@ -23,6 +23,7 @@
         "lint:js": "esw web/**/*.js desktop/**/*.js",
         "lint:scss": "stylelint web/**/*.scss",
         "start": "electron dist/main.js",
+        "test": "run-s build",
         "watch": "npm-run-all clean -p \"lint --watch\" \"compile --watch\""
     },
     "devDependencies": {
