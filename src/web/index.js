@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import VideoSelect from './components/video_select';
+
 ReactDOM.render(
-    <h1>Hello, world!</h1>,
+    <div>
+        <VideoSelect />
+    </div>,
     document.getElementById('root')
 );

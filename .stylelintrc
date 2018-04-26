@@ -2,7 +2,8 @@
     "defaultSeverity": "error",
     "extends": "stylelint-config-sass-guidelines",
     "rules": {
-        "indentation": 4
+        "indentation": 4,
+        "selector-class-pattern": null
     }
   }
   

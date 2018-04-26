@@ -1,0 +1,11 @@
+
+.inline-container {
+    > * {
+        display: inline-block;
+    }
+}
+
+.video-select {
+    max-width: 1200px;
+    min-width: 600px;
+}
