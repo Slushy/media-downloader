@@ -22,8 +22,8 @@ module.exports = [
     // Desktop
     merge(commonConfig, {
         target: 'electron-main',
-        entry: { 
-            main: path.resolve(__dirname, 'desktop/main.js') 
+        entry: {
+            main: path.resolve(__dirname, 'src/desktop/main.js')
         },
         node: {
             __dirname: false
@@ -34,8 +34,8 @@ module.exports = [
         target: 'electron-renderer',
         entry: {
             web: [
-                path.resolve(__dirname, 'web/src/index.js'),
-                path.resolve(__dirname, 'web/resources/styles/main.scss')
+                path.resolve(__dirname, 'src/web/index.js'),
+                path.resolve(__dirname, 'src/web/styles/main.scss')
             ]
         },
         module: {

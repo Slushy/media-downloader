@@ -4,7 +4,7 @@
     "description": "A react-based electron desktop app for downloading youtube video and audio",
     "author": "Brandon Porter <brandon.porter18@gmail.com>",
     "license": "ISC",
-    "main": "main.js",
+    "main": "dist/main.js",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Slushy/media-downloader.git"
@@ -16,23 +16,40 @@
         ]
     },
     "scripts": {
-        "build": "run-s clean lint compile",
+        "build": "run-s clean lint copy-assets compile",
         "clean": "rimraf dist/",
         "compile": "parallel-webpack",
+        "copy-assets": "copyfiles -u 1 resources/assets/**/* dist/",
+        "dist": "yarn run build && electron-builder",
+        "package": "yarn run dist --dir",
+        "postinstall": "electron-builder install-app-deps",
         "lint": "run-p \"lint:* {@}\" --",
-        "lint:js": "esw web/**/*.js desktop/**/*.js",
-        "lint:scss": "stylelint web/**/*.scss",
+        "lint:js": "esw src/**/*.js",
+        "lint:scss": "stylelint src/**/*.scss",
         "start": "electron dist/main.js",
         "test": "run-s build",
-        "watch": "npm-run-all clean -p \"lint --watch\" \"compile --watch\""
+        "watch": "npm-run-all clean -p copy-assets \"lint --watch\" \"compile --watch\""
+    },
+    "build": {
+        "appId": "com.github.slushy.media-downloader",
+        "files": [
+            "dist/**/*"
+        ],
+        "directories": {
+            "output": "dist/bin",
+            "buildResources": "resources/build"
+        },
+        "publish": null
     },
     "devDependencies": {
         "babel-core": "^6.26.0",
         "babel-loader": "^7.1.4",
         "babel-preset-env": "^1.6.1",
         "babel-preset-react": "^6.24.1",
+        "copyfiles": "^2.0.0",
         "css-loader": "^0.28.11",
         "electron": "^1.8.4",
+        "electron-builder": "^20.10.0",
         "eslint": "^4.19.1",
         "eslint-plugin-react": "^7.7.0",
         "eslint-watch": "^3.1.4",
