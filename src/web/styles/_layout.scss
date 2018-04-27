@@ -5,7 +5,13 @@
     }
 }
 
-.video-select {
+.video-select,
+.video-downloads {
     max-width: 1200px;
     min-width: 600px;
+}
+
+.video-downloads {
+    margin-top: 25px;
+    padding: 5px;
 }

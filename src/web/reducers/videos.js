@@ -1,12 +1,11 @@
 import { DOWNLOAD_VIDEO } from '../actions/action_types';
 
-export default (state = {}, action) => {
+export default (urls = [], action) => {
     console.log(`action type: ${action.type}`);
     switch (action.type) {
         case DOWNLOAD_VIDEO:
-            console.log(`The url to download is ${action.payload}`);
-            return state;
+            return [ action.payload, ...urls ];
         default:
-            return state;
+            return urls;
     }
 };
