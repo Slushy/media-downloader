@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export default class VideoSelect extends Component {
+import * as actions from '../actions';
+
+class VideoSelect extends Component {
     constructor(props) {
         super(props);
         this.state = { url: '' };
@@ -9,7 +12,7 @@ export default class VideoSelect extends Component {
     }
 
     onDownload() {
-        console.log(`The url to download is ${this.state.url}`);
+        this.props.downloadVideo(this.state.url);
     }
 
     render() {
@@ -28,3 +31,5 @@ export default class VideoSelect extends Component {
         );
     }
 }
+
+export default connect(null, actions)(VideoSelect);

@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import ReduxStore from './reducers';
+import store from './reducers';
 import VideoSelect from './components/video_select';
 
 ReactDOM.render(
-    <Provider store={ReduxStore}>
+    <Provider store={store}>
         <VideoSelect />
     </Provider>,
     document.getElementById('root')
