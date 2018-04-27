@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../actions';
-
 class VideoDownloads extends Component {
 
     render() {
@@ -32,4 +30,4 @@ function mapStateToProps({ videos }) {
     return { videos };
 }
 
-export default connect(mapStateToProps, actions)(VideoDownloads);
+export default connect(mapStateToProps)(VideoDownloads);
