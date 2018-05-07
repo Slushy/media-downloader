@@ -15,7 +15,7 @@ class VideoDownloads extends Component {
             );
         } else {
             css.push('video-downloads--empty');
-            downloads = <div>{'Add a URL and select "Download" to begin downloading!'}</div>;
+            downloads.push(<div>{'Add a URL and select "Download" to begin downloading!'}</div>);
         }
 
         return (
