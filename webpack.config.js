@@ -14,6 +14,9 @@ const commonConfig = {
         rules: [{ exclude: /node_modules/, loader: "babel-loader" }]
     },
     resolve: {
+        alias: {
+            '@shared': path.resolve(__dirname, 'src/shared/')
+        },
         extensions: ['.js', '.jsx']
     }
 };
