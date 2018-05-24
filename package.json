@@ -21,6 +21,7 @@
         "compile": "parallel-webpack",
         "copy": "run-p copy:**",
         "copy:resources": "copyfiles -u 1 resources/**/* -e resources/__build/**/* dist/",
+        "copy:bin": "copyfiles bin/**/* dist/",
         "dist": "yarn run build && electron-builder",
         "package": "yarn run dist --dir",
         "postinstall": "electron-builder install-app-deps",
