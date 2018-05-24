@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../actions';
+import { addVideo } from '../actions';
 
 class VideoSelect extends Component {
     constructor(props) {
@@ -12,7 +12,7 @@ class VideoSelect extends Component {
     }
 
     onDownload() {
-        this.props.addVideoToDownloads(this.state.url);
+        this.props.addVideo(this.state.url);
         this.setState({ url: '' });
     }
 
@@ -35,4 +35,4 @@ class VideoSelect extends Component {
     }
 }
 
-export default connect(null, actions)(VideoSelect);
+export default connect(null, { addVideo })(VideoSelect);

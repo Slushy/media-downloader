@@ -16,10 +16,11 @@
         ]
     },
     "scripts": {
-        "build": "run-s clean lint copy-assets compile",
-        "clean": "rimraf dist/",
+        "build": "run-s clean lint copy compile",
+        "clean": "rimraf dist/ __release__/",
         "compile": "parallel-webpack",
-        "copy-assets": "copyfiles -u 1 resources/assets/**/* dist/",
+        "copy": "run-p copy:**",
+        "copy:resources": "copyfiles -u 1 resources/**/* -e resources/__build/**/* dist/",
         "dist": "yarn run build && electron-builder",
         "package": "yarn run dist --dir",
         "postinstall": "electron-builder install-app-deps",
@@ -28,7 +29,7 @@
         "lint:scss": "stylelint src/**/*.scss",
         "start": "electron dist/main.js",
         "test": "run-s build",
-        "watch": "npm-run-all clean -p copy-assets \"lint --watch\" \"compile --watch\""
+        "watch": "npm-run-all clean -p copy \"lint --watch\" \"compile --watch\""
     },
     "build": {
         "appId": "com.github.slushy.media-downloader",
@@ -36,8 +37,8 @@
             "dist/**/*"
         ],
         "directories": {
-            "output": "dist/bin",
-            "buildResources": "resources/build"
+            "output": "__release__",
+            "buildResources": "resources/__build"
         },
         "publish": null
     },
@@ -68,10 +69,12 @@
         "webpack-merge": "^4.1.2"
     },
     "dependencies": {
+        "fluent-ffmpeg": "^2.1.2",
         "react": "^16.3.2",
         "react-dom": "^16.3.2",
         "react-redux": "^5.0.7",
         "redux": "^4.0.0",
-        "redux-thunk": "^2.2.0"
+        "redux-thunk": "^2.2.0",
+        "ytdl-core": "^0.20.4"
     }
 }

@@ -1,3 +1,4 @@
+const { DefinePlugin } = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path');
@@ -30,7 +31,12 @@ module.exports = [
         },
         node: {
             __dirname: false
-        }
+        },
+        plugins: [
+            new DefinePlugin({
+                'process.env.FLUENTFFMPEG_COV': false
+            })
+        ]
     }),
     // Web
     merge(commonConfig, {
