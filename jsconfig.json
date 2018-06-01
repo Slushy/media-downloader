@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "es6",
         "moduleResolution": "node",
-        "jsx": "Preserve",
+        "jsx": "preserve",
         "baseUrl": ".",
         "paths": {
             "@shared/*": [
