@@ -5,7 +5,8 @@ import ytdl from 'ytdl-core';
 
 import {
     VIDEO_METADATA,
-    VIDEO_DOWNLOAD
+    VIDEO_DOWNLOAD,
+    VIDEO_METADATA_RECEIVED
     // VIDEO_DOWNLOAD_STARTED
     // VIDEO_DOWNLOAD_PROGRESS,
     // VIDEO_DOWNLOAD_COMPLETED
@@ -28,7 +29,10 @@ ipcMain.on(VIDEO_METADATA, (evt, url) => {
     console.log(`VIDEO_METADATA received with url ${url}`);
     ytdl.getInfo(url, (err, { thumbnail_url, title }) => {
         if (err) return console.error(err);
-        console.log(`Thumbnail: ${thumbnail_url}, Title: ${title}`);
+        mainWindow && mainWindow.webContents.send(VIDEO_METADATA_RECEIVED, {
+            title,
+            thumbnail: thumbnail_url
+        });
     });
 });
 
