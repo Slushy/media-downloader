@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { addVideo } from '../actions';
+import { DownloadButton } from './video-select/DownloadButton';
+import { FileTypeSelect } from './video-select/FileTypeSelect';
+import { UrlInput } from './video-select/UrlInput';
 
 class VideoSelect extends Component {
     constructor(props) {
@@ -19,16 +22,13 @@ class VideoSelect extends Component {
     render() {
         return (
             <div className="inline-container video-select">
-                <input
-                    type="text"
-                    onKeyPress={(e) => { e.key === 'Enter' && this.onDownload(); }}
-                    placeholder="Paste URL here"
-                    className="video-select__url"
-                    value={this.state.url}
+                <UrlInput
+                    url={this.state.url}
+                    onEnter={this.onDownload}
                     onChange={(e) => this.setState({ url: e.target.value })} />
                 <div className="inline-container video-select__actions">
-                    <button className="video-select__download" onClick={this.onDownload}>Download</button>
-                    <button className="video-select__filetype">{'<'}</button>
+                    <DownloadButton onClick={this.onDownload} />
+                    <FileTypeSelect />
                 </div>
             </div>
         );
