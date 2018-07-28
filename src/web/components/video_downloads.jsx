@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
+
 import { EmptyDisplay } from './video-downloads/EmptyDisplay';
 import { VideoItem } from './video-downloads/VideoItem';
 
 class VideoDownloads extends Component {
 
     render() {
-        const css = ['video-downloads'];
         const urls = this.props.urls;
         const metadata = this.props.metadata;
+        const hasDownloads = urls.length;
 
-        let downloads = [];
-        if (urls.length) {
-            css.push('video-downloads--active');
-            downloads = urls.map(url => <VideoItem key={url} url={url} metadata={metadata} />);
-        } else {
-            css.push('video-downloads--empty');
-        }
+        const downloadItems = hasDownloads
+            ? urls.map(url => <VideoItem key={url} url={url} metadata={metadata} />)
+            : <EmptyDisplay />;
 
+        const classes = classNames('video-downloads', {
+            'video-downloads--active': hasDownloads,
+            'video-downloads--empty': !hasDownloads
+        });
         return (
-            <div className={css.join(' ')}>
-                {downloads.length ? downloads : <EmptyDisplay />}
+            <div className={classes}>
+                {downloadItems}
             </div>
         );
     }
