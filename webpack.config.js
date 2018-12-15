@@ -11,6 +11,7 @@ const commonConfig = {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
     },
+    devtool: 'source-map',
     module: {
         rules: [{ exclude: /node_modules/, loader: "babel-loader" }]
     },

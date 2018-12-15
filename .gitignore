@@ -11,3 +11,6 @@ bin
 # Output
 dist
 __release__
+
+# Settings
+.vscode

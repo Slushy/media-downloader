@@ -75,11 +75,13 @@
     "dependencies": {
         "classnames": "^2.2.6",
         "fluent-ffmpeg": "^2.1.2",
+        "node-id3": "^0.1.7",
         "react": "^16.3.2",
         "react-dom": "^16.3.2",
         "react-redux": "^5.0.7",
         "redux": "^4.0.0",
         "redux-thunk": "^2.2.0",
+        "uniqid": "^5.0.3",
         "ytdl-core": "^0.20.4"
     }
 }
