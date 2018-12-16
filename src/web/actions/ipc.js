@@ -14,9 +14,9 @@ export const videoAdded = ({ id, url }) => ({
     payload: { id, url }
 });
 
-export const metadataReceived = ({ id, title, thumbnail }) => ({
+export const metadataReceived = ({ id, title, thumbnail, time, size }) => ({
     type: VIDEO_ACTION_METADATA_RECEIVED,
-    payload: { id, title, thumbnail }
+    payload: { id, title, thumbnail, time, size }
 });
 
 export const downloadStarted = ({ id }) => ({

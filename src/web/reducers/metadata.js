@@ -13,8 +13,8 @@ export default (state = DEFAULT_STATE, action) => {
             return { ...state, [id]: video };
         }
         case VIDEO_ACTION_METADATA_RECEIVED: {
-            const { id, title, thumbnail } = action.payload;
-            const video = { ...state[id], title, thumbnail };
+            const { id, title, thumbnail, time, size } = action.payload;
+            const video = { ...state[id], title, thumbnail, time, size };
             return { ...state, [id]: video };
         }
         default:

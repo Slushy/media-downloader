@@ -76,7 +76,9 @@ function onVideoEvent(event, data) {
             send(SERVER_VIDEO_METADATA_RECEIVED, {
                 id: data.video.id,
                 title: data.video.title,
-                thumbnail: data.video.thumbnail
+                thumbnail: data.video.thumbnail,
+                time: data.video.time,
+                size: data.video.size
             });
             break;
         case 'download_started':
@@ -109,7 +111,6 @@ function onVideoEvent(event, data) {
 
 function send(evt, data) {
     if (!mainWindow) throw new Error(`Trying to fire ${evt} when no window available`);
-    console.log(`Emitting ${evt}: ${JSON.stringify(data)}`);
     mainWindow.webContents.send(evt, data);
 }
 

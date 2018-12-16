@@ -11,7 +11,7 @@ import {
 } from '@shared/config';
 import Video from './video';
 
-Ffmpeg().setFfmpegPath(path.join(__dirname, 'bin', 'ffmpeg.exe'));
+Ffmpeg.setFfmpegPath(path.join(__dirname, 'bin', 'ffmpeg.exe'));
 
 export default class VideoManager {
     constructor(onVideoEventCb) {
@@ -46,11 +46,13 @@ export default class VideoManager {
             .on('response', () => this.eventCb('download_started', { video }))
             .on('progress', (_, curr, total) => this.eventCb('download_progress', { video, curr, total }))
             .on('error', error => this.eventCb('error', { id: video.id, error }));
-        this.videos[video.id].stream = stream;
 
-        Ffmpeg(stream)
-            .toFormat('mp3')
-            .save(videoPath)
+        Ffmpeg({ source: stream })
+            .on('progress', p => {
+                console.log(`video.title: ${video.title}, ${p.targetSize}`);
+                video.setSize(p.targetSize);
+                this.eventCb('metadata', { video });
+            })
             .on('error', error => this.eventCb('error', { id: video.id, error }))
             .on('end', () => {
                 if (!this.videos[video.id]) return;
@@ -61,6 +63,8 @@ export default class VideoManager {
                     artist: video.artist,
                     album: video.album
                 }, videoPath, (error) => {
+                    stream.destroy();
+
                     if (error) this.eventCb('error', { id: video.id, error });
                     else this.eventCb('download_completed', { video });
 
@@ -71,6 +75,8 @@ export default class VideoManager {
                         delete this.videos[video.id];
                     });
                 });
-            });
+            })
+            .toFormat('mp3')
+            .save(videoPath);
     }
 }
