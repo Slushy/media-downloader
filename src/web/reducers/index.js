@@ -1,6 +1,4 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import thunk from 'redux-thunk';
-
+import { combineReducers } from 'redux';
 import videos from './videos';
 
-export default createStore(combineReducers({ videos }), {}, applyMiddleware(thunk));
+export default combineReducers({ videos });

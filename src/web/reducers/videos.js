@@ -7,23 +7,24 @@ import {
 } from '../actions/action_types';
 
 const DEFAULT_STATE = {
-    urls: [],
-    metadata: {} // [url]: { title, thumbnail }
+    ids: [],
+    metadata: {} // [id]: { title, thumbnail }
 };
 
 export default (state = DEFAULT_STATE, action) => {
     console.log(`action type: ${action.type}`);
-    const { urls, metadata } = state;
+    const { ids, metadata } = state;
 
     switch (action.type) {
         case VIDEO_ACTION_ADDED: {
-            const url = action.payload;
-            if (metadata.hasOwnProperty(url)) return state;
-            return { urls: [url, ...urls], metadata: { ...metadata, [url]: {} } };
+            const { id, url } = action.payload;
+            const video = { url };
+            return { ids: [id, ...ids], metadata: { ...metadata, [id]: video } };
         }
         case VIDEO_ACTION_METADATA_RECEIVED: {
-            const { url, title, thumbnail } = action.payload;
-            return { urls, metadata: { ...metadata, [url]: { title, thumbnail } } };
+            const { id, title, thumbnail } = action.payload;
+            const video = { ...metadata[id], title, thumbnail };
+            return { ids, metadata: { ...metadata, [id]: video } };
         }
         case VIDEO_ACTION_DOWNLOAD_STARTED:
         case VIDEO_ACTION_DOWNLOAD_PROGRESS:

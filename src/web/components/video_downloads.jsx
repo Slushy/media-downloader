@@ -8,12 +8,12 @@ import { VideoItem } from './video-downloads/VideoItem';
 class VideoDownloads extends Component {
 
     render() {
-        const urls = this.props.urls;
+        const ids = this.props.ids;
         const metadata = this.props.metadata;
-        const hasDownloads = urls.length;
+        const hasDownloads = ids.length;
 
         const downloadItems = hasDownloads
-            ? urls.map(url => <VideoItem key={url} url={url} metadata={metadata} />)
+            ? ids.map(id => <VideoItem key={id} metadata={metadata[id]} />)
             : <EmptyDisplay />;
 
         const classes = classNames('video-downloads', {
@@ -28,8 +28,8 @@ class VideoDownloads extends Component {
     }
 }
 
-function mapStateToProps({ videos: { urls, metadata } }) {
-    return { urls, metadata };
+function mapStateToProps({ videos: { ids, metadata } }) {
+    return { ids, metadata };
 }
 
 export default connect(mapStateToProps)(VideoDownloads);

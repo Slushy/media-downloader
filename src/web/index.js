@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import store from './reducers';
+import store from './store';
 import VideoSelect from './components/video_select';
 import VideoDownloads from './components/video_downloads';
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { addVideo } from '../actions';
+import { downloadVideo } from '../actions';
 import { DownloadButton } from './video-select/DownloadButton';
 import { FileTypeSelect } from './video-select/FileTypeSelect';
 import { UrlInput } from './video-select/UrlInput';
@@ -15,7 +15,7 @@ class VideoSelect extends Component {
     }
 
     onDownload() {
-        this.props.addVideo(this.state.url);
+        this.props.downloadVideo(this.state.url);
         this.setState({ url: '' });
     }
 
@@ -35,4 +35,4 @@ class VideoSelect extends Component {
     }
 }
 
-export default connect(null, { addVideo })(VideoSelect);
+export default connect(null, { downloadVideo })(VideoSelect);

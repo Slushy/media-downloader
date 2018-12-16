@@ -2,12 +2,13 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import VideoManager from './video_manager';
 
 import {
-    VIDEO_DOWNLOAD,
-    VIDEO_METADATA_RECEIVED,
-    VIDEO_DOWNLOAD_STARTED,
-    VIDEO_DOWNLOAD_PROGRESS,
-    VIDEO_DOWNLOAD_ERROR,
-    VIDEO_DOWNLOAD_COMPLETED
+    SERVER_DO_VIDEO_DOWNLOAD,
+    SERVER_VIDEO_ADDED,
+    SERVER_VIDEO_METADATA_RECEIVED,
+    SERVER_VIDEO_DOWNLOAD_STARTED,
+    SERVER_VIDEO_DOWNLOAD_PROGRESS,
+    SERVER_VIDEO_DOWNLOAD_ERROR,
+    SERVER_VIDEO_DOWNLOAD_COMPLETED
 } from '@shared/events';
 
 let mainWindow, videoManager;
@@ -24,9 +25,10 @@ app.on('ready', () => {
     videoManager = new VideoManager(onVideoEvent);
 });
 
-ipcMain.on(VIDEO_DOWNLOAD, (_, url) => {
+ipcMain.on(SERVER_DO_VIDEO_DOWNLOAD, (_, url) => {
     if (!videoManager) throw new Error('Video manager doesn\'t exist');
-    videoManager.start(url);
+    const id = videoManager.start(url);
+    send(SERVER_VIDEO_ADDED, { id, url });
 });
 
 app.on('window-all-closed', () => app.quit());
@@ -34,31 +36,31 @@ app.on('window-all-closed', () => app.quit());
 function onVideoEvent(event, data) {
     switch (event) {
         case 'metadata':
-            send(VIDEO_METADATA_RECEIVED, {
+            send(SERVER_VIDEO_METADATA_RECEIVED, {
                 id: data.video.id,
                 title: data.video.title,
                 thumbnail: data.video.thumbnail
             });
             break;
         case 'download_started':
-            send(VIDEO_DOWNLOAD_STARTED, {
+            send(SERVER_VIDEO_DOWNLOAD_STARTED, {
                 id: data.video.id
             });
             break;
         case 'download_progress':
-            send(VIDEO_DOWNLOAD_PROGRESS, {
+            send(SERVER_VIDEO_DOWNLOAD_PROGRESS, {
                 id: data.video.id,
                 currentBytes: data.curr,
                 totalBytes: data.total
             });
             break;
         case 'download_completed':
-            send(VIDEO_DOWNLOAD_COMPLETED, {
+            send(SERVER_VIDEO_DOWNLOAD_COMPLETED, {
                 id: data.video.id
             });
             break;
         case 'error':
-            send(VIDEO_DOWNLOAD_ERROR, {
+            send(SERVER_VIDEO_DOWNLOAD_ERROR, {
                 id: data.id,
                 error: data.error
             });

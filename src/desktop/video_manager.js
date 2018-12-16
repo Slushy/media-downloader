@@ -31,6 +31,8 @@ export default class VideoManager {
 
             this._download(video);
         });
+
+        return id;
     }
 
     _download(video) {
