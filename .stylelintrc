@@ -6,6 +6,9 @@
         "selector-class-pattern": null,
         "selector-max-id": null,
         "order/properties-alphabetical-order": null,
-        "color-named": null
+        "color-named": null,
+        "number-leading-zero": null,
+        "color-hex-length": null,
+        "max-nesting-depth": null
     }
 }

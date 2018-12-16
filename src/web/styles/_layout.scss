@@ -19,9 +19,17 @@
     }
     
     .video-select {
+        margin-top: 15px;
         display: flex;
         flex-direction: row;
+        box-sizing: border-box;
+        padding-right: 3px;
     }
 }
 
-
+.btn-group {
+    margin-left: -1px;
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+}

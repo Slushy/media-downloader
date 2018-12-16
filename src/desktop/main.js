@@ -38,14 +38,17 @@ app.on('ready', () => {
     mainWindow = new BrowserWindow({
         width: 950,
         height: 610,
-        transparent: true,
-        frame: false,
+        backgroundColor: '#FFFFFFFF',
+        frame: true,
         minWidth: 950,
-        minHeight: 610
+        minHeight: 610,
+        show: false
     });
-
-    mainWindow.loadURL(`file://${__dirname}/index.html`);
+    mainWindow.setMenu(null);
+    mainWindow.once('ready-to-show', () => mainWindow.show());
     mainWindow.on('close', () => app.quit());
+    
+    mainWindow.loadURL(`file://${__dirname}/index.html`);
 
     videoManager = new VideoManager(onVideoEvent);
 });

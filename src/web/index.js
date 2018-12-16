@@ -6,11 +6,12 @@ import store from './store';
 import VideoSelect from './components/video_select';
 import VideoDownloads from './components/video_downloads';
 import Footer from './components/Footer';
+// import Header from './components/Header';
 
 ReactDOM.render(
     <Provider store={store}>
         <div className="app-container">
-            <div className="titlebar"></div>
+            {/* <Header /> */}
             <VideoSelect />
             <VideoDownloads />
             <Footer />

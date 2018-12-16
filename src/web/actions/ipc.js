@@ -5,7 +5,8 @@ import {
     VIDEO_ACTION_DOWNLOAD_PROGRESS,
     VIDEO_ACTION_DOWNLOAD_COMPLETE,
     VIDEO_ACTION_DOWNLOAD_ERROR,
-    CONFIG_ACTION_SAVE_FOLDER_CHANGED
+    CONFIG_ACTION_SAVE_FOLDER_CHANGED,
+    WINDOW_STATE_CHANGED
 } from './action_types';
 
 export const videoAdded = ({ id, url }) => ({
@@ -41,4 +42,9 @@ export const downloadError = ({ id, error }) => ({
 export const saveFolderChanged = folder => ({
     type: CONFIG_ACTION_SAVE_FOLDER_CHANGED,
     payload: folder
+});
+
+export const windowStateChanged = maximized => ({
+    type: WINDOW_STATE_CHANGED,
+    payload: maximized
 });

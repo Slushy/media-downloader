@@ -61,7 +61,8 @@ module.exports = [
             new HtmlWebpackPlugin({
                 inject: false,
                 template: require('html-webpack-template'),
-                appMountId: 'root'
+                appMountId: 'root',
+                title: "Slushy Media Downloader"
             })
         ]
     })

@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, remote } from 'electron';
 import {
     SERVER_DO_VIDEO_DOWNLOAD,
     SERVER_VIDEO_ADDED,
@@ -12,7 +12,11 @@ import {
 } from '@shared/events';
 import {
     DOWNLOAD_VIDEO,
-    CHANGE_SAVE_FOLDER
+    CHANGE_SAVE_FOLDER,
+    MAXIMIZE_WINDOW,
+    MINIMIZE_WINDOW,
+    UNMAXIMIZE_WINDOW,
+    CLOSE_WINDOW
 } from '../../actions/action_types';
 import * as IPCActions from '../../actions/ipc';
 
@@ -31,6 +35,14 @@ export default store => {
     for (const evt in IPC_EVENT_ACTIONS) {
         ipcRenderer.on(evt, (_, data) => store.dispatch(IPC_EVENT_ACTIONS[evt](data)));
     }
+    // Assign each window event a dispatchable action
+    getWindow().on('resize', () => {
+        console.log('RESIZED');
+        const isMaximized = getWindow().isMaximized();
+
+        if (isMaximized === store.getState().window.maximized) return;
+        store.dispatch(IPCActions.windowStateChanged(isMaximized));
+    });
 
     return next => action => handleIPCAction(action) || next(action);
 };
@@ -43,8 +55,23 @@ function handleIPCAction(action) {
         case CHANGE_SAVE_FOLDER:
             ipcRenderer.send(SERVER_CHANGE_SAVE_FOLDER, action.payload);
             break;
+        case MAXIMIZE_WINDOW:
+            getWindow().maximize(true);
+            break;
+        case MINIMIZE_WINDOW:
+            getWindow().minimize();
+            break;
+        case UNMAXIMIZE_WINDOW:
+            getWindow().unmaximize();
+            break;
+        case CLOSE_WINDOW:
+            getWindow().close();
+            break;
         default: return false;
     }
 
     return true;
 }
+
+// instead of getCurrentWindow due to waiting to show browser window until it's loaded
+const getWindow = () => remote.BrowserWindow.getAllWindows()[0];
