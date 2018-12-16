@@ -1,4 +1,5 @@
 import { ipcRenderer, remote } from 'electron';
+import isDev from 'electron-is-dev';
 import {
     SERVER_DO_VIDEO_DOWNLOAD,
     SERVER_VIDEO_ADDED,
@@ -29,6 +30,16 @@ const IPC_EVENT_ACTIONS = {
     [SERVER_VIDEO_DOWNLOAD_ERROR]: IPCActions.downloadError,
     [SERVER_SAVE_FOLDER_CHANGED]: IPCActions.saveFolderChanged
 };
+
+if (isDev) {
+    document.addEventListener('keydown', function (e) {
+        if (e.which === 123) { // F12 toggles dev tools
+            getWindow().toggleDevTools();
+        } else if (e.which === 116) { // F5 reloads
+            location.reload();
+        }
+    });
+}
 
 export default store => {
     // Assign each ipc event a dispatchable action
