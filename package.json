@@ -75,6 +75,7 @@
     },
     "dependencies": {
         "classnames": "^2.2.6",
+        "conf": "^2.1.0",
         "fluent-ffmpeg": "^2.1.2",
         "mv": "^2.1.1",
         "node-id3": "^0.1.7",

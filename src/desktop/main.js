@@ -1,45 +1,67 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+
 import VideoManager from './video_manager';
 import fs from 'fs';
 import path from 'path';
 
 import {
     SERVER_DO_VIDEO_DOWNLOAD,
+    SERVER_CHANGE_SAVE_FOLDER,
     SERVER_VIDEO_ADDED,
     SERVER_VIDEO_METADATA_RECEIVED,
     SERVER_VIDEO_DOWNLOAD_STARTED,
     SERVER_VIDEO_DOWNLOAD_PROGRESS,
     SERVER_VIDEO_DOWNLOAD_ERROR,
-    SERVER_VIDEO_DOWNLOAD_COMPLETED
+    SERVER_VIDEO_DOWNLOAD_COMPLETED,
+    SERVER_SAVE_FOLDER_CHANGED
 } from '@shared/events';
+import * as config from '@shared/config';
 
-const FOLDER_OUTPUT_NAME = 'slushy-media-downloader';
-const SAVE_FOLDER = path.join(app.getPath('music'), FOLDER_OUTPUT_NAME);
-const TEMP_FOLDER = path.join(app.getPath('temp'), FOLDER_OUTPUT_NAME);
-if (!fs.existsSync(TEMP_FOLDER)) {
-    fs.mkdirSync(TEMP_FOLDER);
+const FOLDER_OUTPUT_NAME = 'slushy-media';
+config.setIfNotDefined({
+    [config.SAVE_FOLDER]: path.join(app.getPath('music'), FOLDER_OUTPUT_NAME),
+    [config.TEMP_FOLDER]: path.join(app.getPath('temp'), FOLDER_OUTPUT_NAME)
+});
+config.onSaveFolderChanged(saveFolder => {
+    send(SERVER_SAVE_FOLDER_CHANGED, saveFolder);
+});
+
+if (!fs.existsSync(config.getTempFolder())) {
+    fs.mkdirSync(config.getTempFolder());
 }
-if (!fs.existsSync(SAVE_FOLDER)) {
-    fs.mkdirSync(SAVE_FOLDER);
+if (!fs.existsSync(config.getSaveFolder())) {
+    fs.mkdirSync(config.getSaveFolder());
 }
 
 let mainWindow, videoManager;
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
         width: 950,
-        height: 625
+        height: 610,
+        transparent: true,
+        frame: false,
+        minWidth: 950,
+        minHeight: 610
     });
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
     mainWindow.on('close', () => app.quit());
 
-    videoManager = new VideoManager(onVideoEvent, TEMP_FOLDER, SAVE_FOLDER);
+    videoManager = new VideoManager(onVideoEvent);
 });
 
 ipcMain.on(SERVER_DO_VIDEO_DOWNLOAD, (_, url) => {
     if (!videoManager) throw new Error('Video manager doesn\'t exist');
     const id = videoManager.start(url);
     send(SERVER_VIDEO_ADDED, { id, url });
+});
+
+ipcMain.on(SERVER_CHANGE_SAVE_FOLDER, () => {
+    const saveFolder = dialog.showOpenDialog({
+        properties: ['openDirectory'],
+        defaultPath: config.getSaveFolder()
+    });
+    config.setSaveFolder(saveFolder[0]);
 });
 
 app.on('window-all-closed', () => app.quit());

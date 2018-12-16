@@ -72,3 +72,16 @@
     }
 }
 
+.titlebar {
+    height: 50px;
+    // -webkit-user-select: none;
+    -webkit-app-region: drag;
+}
+
+.footer {
+    margin: 10px 0;
+
+    &__change-folder-button {
+        margin-right: 10px;
+    }
+}

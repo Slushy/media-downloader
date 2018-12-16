@@ -11,8 +11,8 @@ class VideoDownloads extends Component {
         const ids = this.props.videos;
         const metadata = this.props.metadata;
         const progress = this.props.progress;
-        
-        const hasDownloads = ids.length;
+
+        const hasDownloads = ids.length > 0;
 
         const downloadItems = hasDownloads
             ? ids.map(id => <VideoItem key={id} metadata={metadata[id]} progress={progress[id]} />)

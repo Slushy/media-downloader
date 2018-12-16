@@ -4,7 +4,8 @@ import {
     VIDEO_ACTION_DOWNLOAD_STARTED,
     VIDEO_ACTION_DOWNLOAD_PROGRESS,
     VIDEO_ACTION_DOWNLOAD_COMPLETE,
-    VIDEO_ACTION_DOWNLOAD_ERROR
+    VIDEO_ACTION_DOWNLOAD_ERROR,
+    CONFIG_ACTION_SAVE_FOLDER_CHANGED
 } from './action_types';
 
 export const videoAdded = ({ id, url }) => ({
@@ -35,4 +36,9 @@ export const downloadCompleted = ({ id }) => ({
 export const downloadError = ({ id, error }) => ({
     type: VIDEO_ACTION_DOWNLOAD_ERROR,
     payload: { id, error }
+});
+
+export const saveFolderChanged = folder => ({
+    type: CONFIG_ACTION_SAVE_FOLDER_CHANGED,
+    payload: folder
 });
