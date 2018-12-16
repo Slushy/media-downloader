@@ -1,5 +1,6 @@
 import React from 'React';
 import classNames from 'classnames';
+import Metadata from './Metadata';
 
 export const VideoItem = ({ metadata, progress }) => {
     progress = progress || {};
@@ -16,9 +17,7 @@ export const VideoItem = ({ metadata, progress }) => {
     return (
         <div className={classes}>
             <img className="video-item__thumbnail" src={metadata.thumbnail} ></img >
-            <div className="video-item__metadata">
-                {metadata.title || metadata.url}
-            </div>
+            <Metadata metadata={metadata} />
             <div className="video-item__progress">
                 <div className="video-item__progress-bar" style={{ width: width }}></div>
             </ div>
