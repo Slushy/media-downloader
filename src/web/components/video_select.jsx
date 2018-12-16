@@ -14,23 +14,25 @@ class VideoSelect extends Component {
         this.onDownload = this.onDownload.bind(this);
     }
 
-    onDownload() {
+    onDownload(e) {
+        e.preventDefault();
+
         this.props.downloadVideo(this.state.url);
         this.setState({ url: '' });
     }
 
     render() {
         return (
-            <div className="inline-container video-select">
+            <form className="inline-container video-select" onSubmit={this.onDownload}>
                 <UrlInput
                     url={this.state.url}
                     onEnter={this.onDownload}
                     onChange={(e) => this.setState({ url: e.target.value })} />
                 <div className="inline-container video-select__actions">
-                    <DownloadButton onClick={this.onDownload} />
+                    <DownloadButton />
                     <FileTypeSelect />
                 </div>
-            </div>
+            </form>
         );
     }
 }
