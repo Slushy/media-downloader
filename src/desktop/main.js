@@ -40,8 +40,9 @@ app.on('ready', () => {
         height: 610,
         backgroundColor: '#FFFFFFFF',
         frame: true,
+
         minWidth: 950,
-        minHeight: 610,
+        minHeight: 630,
         show: false
     });
     mainWindow.setMenu(null);
