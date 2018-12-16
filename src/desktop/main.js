@@ -47,7 +47,6 @@ app.on('ready', () => {
     mainWindow.setMenu(null);
     mainWindow.once('ready-to-show', () => mainWindow.show());
     mainWindow.on('close', () => app.quit());
-    
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 
     videoManager = new VideoManager(onVideoEvent);
@@ -64,7 +63,8 @@ ipcMain.on(SERVER_CHANGE_SAVE_FOLDER, () => {
         properties: ['openDirectory'],
         defaultPath: config.getSaveFolder()
     });
-    config.setSaveFolder(saveFolder[0]);
+
+    saveFolder && saveFolder.length && config.setSaveFolder(saveFolder[0]);
 });
 
 app.on('window-all-closed', () => app.quit());
