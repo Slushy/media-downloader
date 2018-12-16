@@ -8,7 +8,7 @@ import { VideoItem } from './video-downloads/VideoItem';
 class VideoDownloads extends Component {
 
     render() {
-        const ids = this.props.ids;
+        const ids = this.props.videos;
         const metadata = this.props.metadata;
         const hasDownloads = ids.length;
 
@@ -28,8 +28,8 @@ class VideoDownloads extends Component {
     }
 }
 
-function mapStateToProps({ videos: { ids, metadata } }) {
-    return { ids, metadata };
+function mapStateToProps({ videos, metadata }) {
+    return { videos, metadata };
 }
 
 export default connect(mapStateToProps)(VideoDownloads);
