@@ -17,7 +17,7 @@ import {
 } from '@shared/events';
 import * as config from '@shared/config';
 
-const FOLDER_OUTPUT_NAME = 'slushy-media';
+const FOLDER_OUTPUT_NAME = 'media-downloader';
 config.setIfNotDefined({
     [config.SAVE_FOLDER]: path.join(app.getPath('music'), FOLDER_OUTPUT_NAME),
     [config.TEMP_FOLDER]: path.join(app.getPath('temp'), FOLDER_OUTPUT_NAME)
