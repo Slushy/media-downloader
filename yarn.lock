@@ -3012,7 +3012,7 @@ glob-to-regexp@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/glob-to-regexp/-/glob-to-regexp-0.3.0.tgz#8c5a1494d2066c570cc3bfe4496175acc4d502ab"
 
-glob@^6.0.4:
+glob@^6.0.1, glob@^6.0.4:
   version "6.0.4"
   resolved "https://registry.yarnpkg.com/glob/-/glob-6.0.4.tgz#0f08860f6a155127b2fadd4f9ce24b1aab6e4d22"
   dependencies:
@@ -4405,6 +4405,14 @@ mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
 
+mv@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/mv/-/mv-2.1.1.tgz#ae6ce0d6f6d5e0a4f7d893798d03c1ea9559b6a2"
+  dependencies:
+    mkdirp "~0.5.1"
+    ncp "~2.0.0"
+    rimraf "~2.4.0"
+
 nan@^2.10.0, nan@^2.9.2:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
@@ -4429,6 +4437,10 @@ nanomatch@^1.2.9:
 natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
+
+ncp@~2.0.0:
+  version "2.0.0"
+  resolved "http://registry.npmjs.org/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
 needle@^2.2.0:
   version "2.2.0"
@@ -5938,6 +5950,12 @@ rimraf@2, rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2:
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.2.tgz#2ed8150d24a16ea8651e6d6ef0f47c4158ce7a36"
   dependencies:
     glob "^7.0.5"
+
+rimraf@~2.4.0:
+  version "2.4.5"
+  resolved "http://registry.npmjs.org/rimraf/-/rimraf-2.4.5.tgz#ee710ce5d93a8fdb856fb5ea8ff0e2d75934b2da"
+  dependencies:
+    glob "^6.0.1"
 
 ripemd160@^2.0.0, ripemd160@^2.0.1:
   version "2.0.2"

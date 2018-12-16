@@ -10,10 +10,12 @@ class VideoDownloads extends Component {
     render() {
         const ids = this.props.videos;
         const metadata = this.props.metadata;
+        const progress = this.props.progress;
+        
         const hasDownloads = ids.length;
 
         const downloadItems = hasDownloads
-            ? ids.map(id => <VideoItem key={id} metadata={metadata[id]} />)
+            ? ids.map(id => <VideoItem key={id} metadata={metadata[id]} progress={progress[id]} />)
             : <EmptyDisplay />;
 
         const classes = classNames('video-downloads', {
@@ -28,8 +30,4 @@ class VideoDownloads extends Component {
     }
 }
 
-function mapStateToProps({ videos, metadata }) {
-    return { videos, metadata };
-}
-
-export default connect(mapStateToProps)(VideoDownloads);
+export default connect(state => state)(VideoDownloads);

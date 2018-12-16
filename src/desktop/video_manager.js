@@ -1,4 +1,6 @@
 import path from 'path';
+// import fs from 'fs';
+import mv from 'mv';
 import Ffmpeg from 'fluent-ffmpeg';
 import NodeID3 from 'node-id3';
 import ytdl from 'ytdl-core';
@@ -8,10 +10,10 @@ import Video from './video';
 Ffmpeg().setFfmpegPath(path.join(__dirname, 'bin', 'ffmpeg.exe'));
 
 export default class VideoManager {
-
-    constructor(onVideoEventCb) {
+    constructor(onVideoEventCb, tempFolder, saveFolder) {
         this.eventCb = onVideoEventCb;
-        this.saveDir = __dirname;
+        this.tempDir = tempFolder;
+        this.saveDir = saveFolder;
         this.videos = {};
     }
 
@@ -36,9 +38,10 @@ export default class VideoManager {
     }
 
     _download(video) {
-        const videoPath = `${this.saveDir}/${video.id}.mp3`;
+        const videoPath = path.join(this.tempDir, `${video.id}.mp3`);
+        const finalVideoPath = path.join(this.saveDir, `${video.title}.mp3`);
 
-        const stream = ytdl.downloadFromInfo(video.info, { filter: 'audioonly', quality: 'highest' })
+        const stream = ytdl.downloadFromInfo(video.info)
             .on('response', () => this.eventCb('download_started', { video }))
             .on('progress', (_, curr, total) => this.eventCb('download_progress', { video, curr, total }))
             .on('error', error => this.eventCb('error', { id: video.id, error }));
@@ -60,7 +63,11 @@ export default class VideoManager {
                     if (error) this.eventCb('error', { id: video.id, error });
                     else this.eventCb('download_completed', { video });
 
-                    delete this.videos[video.id];
+                    mv(videoPath, finalVideoPath, err => {
+                        if (err) this.eventCb('error', { id: video.id, error: err });
+
+                        delete this.videos[video.id];
+                    });
                 });
             });
     }

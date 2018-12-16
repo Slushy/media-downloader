@@ -1,5 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import VideoManager from './video_manager';
+import fs from 'fs';
+import path from 'path';
 
 import {
     SERVER_DO_VIDEO_DOWNLOAD,
@@ -11,18 +13,27 @@ import {
     SERVER_VIDEO_DOWNLOAD_COMPLETED
 } from '@shared/events';
 
-let mainWindow, videoManager;
+const FOLDER_OUTPUT_NAME = 'slushy-media-downloader';
+const SAVE_FOLDER = path.join(app.getPath('music'), FOLDER_OUTPUT_NAME);
+const TEMP_FOLDER = path.join(app.getPath('temp'), FOLDER_OUTPUT_NAME);
+if (!fs.existsSync(TEMP_FOLDER)) {
+    fs.mkdirSync(TEMP_FOLDER);
+}
+if (!fs.existsSync(SAVE_FOLDER)) {
+    fs.mkdirSync(SAVE_FOLDER);
+}
 
+let mainWindow, videoManager;
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600
+        width: 950,
+        height: 625
     });
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
     mainWindow.on('close', () => app.quit());
 
-    videoManager = new VideoManager(onVideoEvent);
+    videoManager = new VideoManager(onVideoEvent, TEMP_FOLDER, SAVE_FOLDER);
 });
 
 ipcMain.on(SERVER_DO_VIDEO_DOWNLOAD, (_, url) => {

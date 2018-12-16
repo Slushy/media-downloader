@@ -8,7 +8,7 @@ import VideoDownloads from './components/video_downloads';
 
 ReactDOM.render(
     <Provider store={store}>
-        <div>
+        <div className="app-container">
             <VideoSelect />
             <VideoDownloads />
         </div>

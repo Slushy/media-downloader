@@ -1,17 +1,27 @@
-
 .inline-container {
     > * {
         display: inline-block;
     }
 }
 
-.video-select,
-.video-downloads {
-    max-width: 1200px;
-    min-width: 600px;
+.app-container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-content: stretch;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+
+    .video-downloads {
+        margin-top: 25px;
+        flex: 1;
+    }
+    
+    .video-select {
+        display: flex;
+        flex-direction: row;
+    }
 }
 
-.video-downloads {
-    margin-top: 25px;
-    padding: 5px;
-}
+
