@@ -168,3 +168,18 @@
         cursor: pointer;
     }
 }
+
+.empty-display {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+
+    .bold {
+        display: inline-block;
+        margin: 0 2px -5px 2px;
+        font-weight: 500;
+        color: rgb(100, 100, 100);
+    }
+}
