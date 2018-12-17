@@ -7,6 +7,7 @@ export default class Video {
         this.thumbnail = info.thumbnail_url;
         this.image = undefined;
         this.stream = undefined;
+        this.fullPath = '';
         this.tempPath = '';
         this.time = secondsToTimeFormat(info.length_seconds);
         this.size = '0 MB';
@@ -23,6 +24,10 @@ export default class Video {
 
     setTempPath(tempPath) {
         this.tempPath = tempPath;
+    }
+
+    setFullPath(fullPath) {
+        this.fullPath = fullPath;
     }
 
     setSize(sizeKB = 0) {

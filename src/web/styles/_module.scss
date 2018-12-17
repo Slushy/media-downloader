@@ -34,7 +34,7 @@
     width: 110px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    background-color: rgb(82, 124, 139);
+    background-color: rgb(41, 156, 197);
     height: 37px;
 }
 
@@ -114,10 +114,9 @@
     }
 
     &__actions {
-        width: 50px;
         margin: 10px;
         margin-right: 5px;
-        font-size: 14px;
+        font-size: 12px;
         line-height: 50px;
     }
 
@@ -140,13 +139,31 @@
         .video-item__progress {
             opacity: 0;
         }
-
-        .video-teim__close {
-            margin-left: 0;
-        }
     }
 }
 
+.video-item__actions {
+    &__folder {
+        margin-right: 20px;
+        color: rgb(41, 156, 197);
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    &__play {
+        color: rgb(169, 204, 91);
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
 
 .video-metadata {
     display: flex;
@@ -233,11 +250,9 @@
 
     &__change-folder-button {
         margin-right: 20px;
-        // color: #ffffff;
         color: #495057;
         background-color: rgb(230, 230, 230);
         box-shadow: 0.5px 0.5px 1px 1px;
-        // background-color: rgb(82, 124, 139);
         
         &:hover {
             background-color: rgb(240, 240, 240);
@@ -245,7 +260,7 @@
     }
 
     &__save-folder {
-        color: rgb(82, 124, 139);
+        color: rgb(41, 156, 197);
         font-weight: 400;
         font-size: 18px;
         cursor: pointer;

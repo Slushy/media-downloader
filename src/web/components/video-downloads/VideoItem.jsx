@@ -2,7 +2,7 @@ import React from 'React';
 import classNames from 'classnames';
 import Metadata from './Metadata';
 
-export const VideoItem = ({ metadata, progress, onRemove }) => {
+export const VideoItem = ({ metadata, progress, onRemove, onPlay, onShowFolder }) => {
     progress = progress || {};
     let width = "0";
     if (progress.currentBytes) {
@@ -23,7 +23,8 @@ export const VideoItem = ({ metadata, progress, onRemove }) => {
                 <div className="video-item__progress-bar" style={{ width: width }}></div>
             </ div>
             {progress.finished && <div className="video-item__actions">
-                <span>Show</span>
+                <span className="video-item__actions__folder" onClick={onShowFolder}>Show in folder</span>
+                <span className="video-item__actions__play" onClick={onPlay}>Play</span>
             </div>}
             <div className="video-item__close">
                 <img src="assets/close.png" onClick={onRemove} title={removeTitle} />

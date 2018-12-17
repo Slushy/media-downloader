@@ -54,6 +54,10 @@ export default class VideoManager {
         }
     }
 
+    getVideoById(id) {
+        return this.videos[id];
+    }
+
     _download(video) {
         const videoPath = path.join(getTempFolder(), `${video.id}.mp3`);
         video.setTempPath(videoPath);
@@ -80,10 +84,14 @@ export default class VideoManager {
                     artist: video.artist,
                     album: video.album
                 }, videoPath, (error) => {
-                    if (error) this.eventCb('error', { id: video.id, error });
-                    else this.eventCb('download_completed', { video });
+                    if (error) {
+                        this.eventCb('error', { id: video.id, error });
+                        return;
+                    }
 
                     const finalVideoPath = path.join(getSaveFolder(), `${video.title}.mp3`);
+                    video.setFullPath(finalVideoPath);
+
                     mv(videoPath, finalVideoPath, err => {
                         if (err) {
                             this.eventCb('error', { id: video.id, error: err });
@@ -93,6 +101,8 @@ export default class VideoManager {
                         }
 
                         this.removeVideo(video.id);
+                        // we done!
+                        this.eventCb('download_completed', { video });
                     });
                 });
             })

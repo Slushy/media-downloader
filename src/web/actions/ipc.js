@@ -29,9 +29,9 @@ export const downloadProgress = ({ id, currentBytes, totalBytes }) => ({
     payload: { id, currentBytes, totalBytes }
 });
 
-export const downloadCompleted = ({ id }) => ({
+export const downloadCompleted = ({ id, path }) => ({
     type: VIDEO_ACTION_DOWNLOAD_COMPLETE,
-    payload: { id }
+    payload: { id, path }
 });
 
 export const downloadError = ({ id, error }) => ({

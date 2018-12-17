@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
 
 import VideoManager from './video_manager';
 import fs from 'fs';
@@ -14,7 +14,9 @@ import {
     SERVER_VIDEO_DOWNLOAD_ERROR,
     SERVER_VIDEO_DOWNLOAD_COMPLETED,
     SERVER_SAVE_FOLDER_CHANGED,
-    SERVER_DO_REMOVE_VIDEO
+    SERVER_DO_REMOVE_VIDEO,
+    SERVER_VIDEO_SHOW_IN_FOLDER,
+    SERVER_VIDEO_PLAY
 } from '@shared/events';
 import * as config from '@shared/config';
 
@@ -74,6 +76,15 @@ ipcMain.on(SERVER_DO_REMOVE_VIDEO, (_, id) => {
     videoManager.removeVideo(id);
 });
 
+ipcMain.on(SERVER_VIDEO_SHOW_IN_FOLDER, (_, folder) => {
+    shell.openItem(folder);
+});
+
+ipcMain.on(SERVER_VIDEO_PLAY, (_, id) => {
+    if (!videoManager) throw new Error('Video manager doesn\'t exist');
+    videoManager.removeVideo(id);
+});
+
 app.on('window-all-closed', () => app.quit());
 
 function onVideoEvent(event, data) {
@@ -101,7 +112,8 @@ function onVideoEvent(event, data) {
             break;
         case 'download_completed':
             send(SERVER_VIDEO_DOWNLOAD_COMPLETED, {
-                id: data.video.id
+                id: data.video.id,
+                path: data.video.fullPath
             });
             break;
         case 'error':

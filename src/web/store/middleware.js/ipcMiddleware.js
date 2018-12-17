@@ -1,4 +1,4 @@
-import { ipcRenderer, remote } from 'electron';
+import { ipcRenderer, remote, shell } from 'electron';
 import isDev from 'electron-is-dev';
 import {
     SERVER_DO_VIDEO_DOWNLOAD,
@@ -19,7 +19,9 @@ import {
     MINIMIZE_WINDOW,
     UNMAXIMIZE_WINDOW,
     CLOSE_WINDOW,
-    REMOVE_VIDEO
+    REMOVE_VIDEO,
+    SHOW_IN_FOLDER,
+    SHOW_FOLDER
 } from '../../actions/action_types';
 import * as IPCActions from '../../actions/ipc';
 
@@ -68,6 +70,12 @@ function handleIPCAction(action) {
         case REMOVE_VIDEO:
             handled = false;
             ipcRenderer.send(SERVER_DO_REMOVE_VIDEO, action.payload);
+            break;
+        case SHOW_IN_FOLDER:
+            shell.showItemInFolder(action.payload);
+            break;
+        case SHOW_FOLDER:
+            shell.openItem(action.payload);
             break;
         case CHANGE_SAVE_FOLDER:
             ipcRenderer.send(SERVER_CHANGE_SAVE_FOLDER, action.payload);
