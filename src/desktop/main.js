@@ -85,7 +85,12 @@ ipcMain.on(SERVER_VIDEO_PLAY, (_, id) => {
     videoManager.removeVideo(id);
 });
 
-app.on('window-all-closed', () => app.quit());
+let quitting = false;
+app.on('window-all-closed', () => {
+    videoManager && videoManager.removeAll();
+    quitting = true;
+    app.quit();
+});
 
 function onVideoEvent(event, data) {
     switch (event) {
@@ -128,9 +133,15 @@ function onVideoEvent(event, data) {
 }
 
 function send(evt, data) {
-    if (!mainWindow) throw new Error(`Trying to fire ${evt} when no window available`);
-    console.log(`Emitting ${evt}: ${JSON.stringify(data)}`);
-    mainWindow.webContents.send(evt, data);
+    if (quitting) return;
+    try {
+        if (!mainWindow) throw new Error(`Trying to fire ${evt} when no window available`);
+        console.log(`Emitting ${evt}: ${JSON.stringify(data)}`);
+
+        mainWindow.webContents.send(evt, data);
+    } catch (ex) {
+        console.log(ex);
+    }
 }
 
 console.log(`Electron Version ${app.getVersion()}`);

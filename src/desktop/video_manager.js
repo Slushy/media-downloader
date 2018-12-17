@@ -42,71 +42,84 @@ export default class VideoManager {
     removeVideo(id) {
         console.log(`Attempting to remove Video '${id}'`);
 
-        const video = this.videos[id];
-        if (video) {
-            delete this.videos[id];
-            video.stream && video.stream.ffmpegProc.stdin.write('q');
-            video.setStream(undefined);
-            video.tempPath && fs.unlink(video.tempPath, err => console.log(`Video unlinked error: ${err}`));
-            console.log(`Video '${id}' successfully removed`);
-        } else {
-            console.log(`Video '${id}' was not active`);
+        try {
+            const video = this.videos[id];
+            if (video) {
+                delete this.videos[id];
+                video.stream && video.stream.ffmpegProc.stdin.write('q');
+                video.setStream(undefined);
+                video.tempPath && fs.unlink(video.tempPath, err => console.log(`Video unlinked error: ${err}`));
+                console.log(`Video '${id}' successfully removed`);
+            } else {
+                console.log(`Video '${id}' was not active`);
+            }
+        } catch (ex) {
+            console.log(ex);
         }
+
     }
 
     getVideoById(id) {
         return this.videos[id];
     }
 
+    removeAll() {
+        for (const id in this.videos) this.removeVideo(id);
+    }
+
     _download(video) {
-        const videoPath = path.join(getTempFolder(), `${video.id}.mp3`);
-        video.setTempPath(videoPath);
+        try {
+            const videoPath = path.join(getTempFolder(), `${video.id}.mp3`);
+            video.setTempPath(videoPath);
 
-        const stream = ytdl.downloadFromInfo(video.info)
-            .on('response', () => this.eventCb('download_started', { video }))
-            .on('progress', (_, curr, total) => this.eventCb('download_progress', { video, curr, total }))
-            .on('error', error => this.eventCb('error', { id: video.id, error }));
-        video.setStream(stream);
+            const stream = ytdl.downloadFromInfo(video.info)
+                .on('response', () => this.eventCb('download_started', { video }))
+                .on('progress', (_, curr, total) => this.eventCb('download_progress', { video, curr, total }))
+                .on('error', error => this.eventCb('error', { id: video.id, error }));
+            video.setStream(stream);
 
-        video.setStream(Ffmpeg({ source: stream })
-            .on('progress', p => {
-                video.setSize(p.targetSize);
-                this.eventCb('metadata', { video });
-            })
-            .on('error', error => this.eventCb('error', { id: video.id, error }))
-            .on('end', () => {
-                if (!this.videos[video.id]) return;
-                video.setStream(undefined);
+            video.setStream(Ffmpeg({ source: stream })
+                .on('progress', p => {
+                    video.setSize(p.targetSize);
+                    this.eventCb('metadata', { video });
+                })
+                .on('error', error => this.eventCb('error', { id: video.id, error }))
+                .on('end', () => {
+                    if (!this.videos[video.id]) return;
+                    video.setStream(undefined);
 
-                NodeID3.update({
-                    title: video.title,
-                    APIC: video.image,
-                    artist: video.artist,
-                    album: video.album
-                }, videoPath, (error) => {
-                    if (error) {
-                        this.eventCb('error', { id: video.id, error });
-                        return;
-                    }
-
-                    const finalVideoPath = path.join(getSaveFolder(), `${video.title}.mp3`);
-                    video.setFullPath(finalVideoPath);
-
-                    mv(videoPath, finalVideoPath, err => {
-                        if (err) {
-                            this.eventCb('error', { id: video.id, error: err });
-                        } else {
-                            // if we don't have an error the temp path has already been removed
-                            video.setTempPath(undefined);
+                    NodeID3.update({
+                        title: video.title,
+                        APIC: video.image,
+                        artist: video.artist,
+                        album: video.album
+                    }, videoPath, (error) => {
+                        if (error) {
+                            this.eventCb('error', { id: video.id, error });
+                            return;
                         }
 
-                        this.removeVideo(video.id);
-                        // we done!
-                        this.eventCb('download_completed', { video });
+                        const finalVideoPath = path.join(getSaveFolder(), `${video.title}.mp3`);
+                        video.setFullPath(finalVideoPath);
+
+                        mv(videoPath, finalVideoPath, err => {
+                            if (err) {
+                                this.eventCb('error', { id: video.id, error: err });
+                            } else {
+                                // if we don't have an error the temp path has already been removed
+                                video.setTempPath(undefined);
+                            }
+
+                            this.removeVideo(video.id);
+                            // we done!
+                            this.eventCb('download_completed', { video });
+                        });
                     });
-                });
-            })
-            .toFormat('mp3')
-            .save(videoPath));
+                })
+                .toFormat('mp3')
+                .save(videoPath));
+        } catch (ex) {
+            console.log(ex);
+        }
     }
 }
