@@ -48,7 +48,7 @@
     // background-color: rgb(122, 166, 181);
 
     .filetype-text {
-        color: rgb(82, 124, 139);
+        color: rgb(41, 156, 197);
         font-weight: 500;
         padding: 2px;
         margin-left: 2px;
@@ -88,6 +88,12 @@
 
     &__thumbnail {
         margin: 0 10px;
+        width: 66px;
+
+        img {
+            width: 100%;
+            max-height: 50px;
+        }
     }
 
     &__metadata {
@@ -175,6 +181,10 @@
         font-weight: 500;
         font-size: 14px;
         color: rgb(77, 77, 77);
+
+        &--full {
+            line-height: 50px;
+        }
     }
 
     &__details {
@@ -261,8 +271,8 @@
 
     &__save-folder {
         color: rgb(41, 156, 197);
-        font-weight: 400;
-        font-size: 18px;
+        font-weight: 500;
+        font-size: 16px;
         cursor: pointer;
     }
 }

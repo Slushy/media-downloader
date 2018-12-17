@@ -17,14 +17,16 @@ export const VideoItem = ({ metadata, progress, onRemove, onPlay, onShowFolder }
     const removeTitle = progress.finished ? "Remove video from download history" : "Cancel download";
     return (
         <div className={classes}>
-            <img className="video-item__thumbnail" src={metadata.thumbnail} ></img >
+            <div className="video-item__thumbnail">
+                <img src={metadata.thumbnail} ></img >
+            </div>
             <Metadata metadata={metadata} />
             <div className="video-item__progress">
                 <div className="video-item__progress-bar" style={{ width: width }}></div>
             </ div>
             {progress.finished && <div className="video-item__actions">
-                <span className="video-item__actions__folder" onClick={onShowFolder}>Show in folder</span>
-                <span className="video-item__actions__play" onClick={onPlay}>Play</span>
+                <span className="video-item__actions__folder" onClick={onShowFolder} title="Show item in folder">Show in folder</span>
+                <span className="video-item__actions__play" onClick={onPlay} title="Play item">Play</span>
             </div>}
             <div className="video-item__close">
                 <img src="assets/close.png" onClick={onRemove} title={removeTitle} />
