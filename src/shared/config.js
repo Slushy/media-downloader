@@ -1,5 +1,7 @@
 import Conf from 'conf';
-const config = new Conf();
+const config = new Conf({
+    projectName: 'media-downloader'
+});
 
 export const SAVE_FOLDER = 'saveFolder';
 export const TEMP_FOLDER = 'tempFolder';
