@@ -4,7 +4,8 @@ import {
     MINIMIZE_WINDOW,
     MAXIMIZE_WINDOW,
     UNMAXIMIZE_WINDOW,
-    CLOSE_WINDOW
+    CLOSE_WINDOW,
+    REMOVE_VIDEO
 } from './action_types';
 
 export const downloadVideo = url => ({
@@ -30,4 +31,9 @@ export const unmaximizeWindow = () => ({
 
 export const closeWindow = () => ({
     type: CLOSE_WINDOW
+});
+
+export const removeVideo = id => ({
+    type: REMOVE_VIDEO,
+    payload: id
 });

@@ -9,7 +9,8 @@ import {
     SERVER_VIDEO_DOWNLOAD_COMPLETED,
     SERVER_VIDEO_DOWNLOAD_ERROR,
     SERVER_CHANGE_SAVE_FOLDER,
-    SERVER_SAVE_FOLDER_CHANGED
+    SERVER_SAVE_FOLDER_CHANGED,
+    SERVER_DO_REMOVE_VIDEO
 } from '@shared/events';
 import {
     DOWNLOAD_VIDEO,
@@ -17,7 +18,8 @@ import {
     MAXIMIZE_WINDOW,
     MINIMIZE_WINDOW,
     UNMAXIMIZE_WINDOW,
-    CLOSE_WINDOW
+    CLOSE_WINDOW,
+    REMOVE_VIDEO
 } from '../../actions/action_types';
 import * as IPCActions from '../../actions/ipc';
 
@@ -48,7 +50,6 @@ export default store => {
     }
     // Assign each window event a dispatchable action
     getWindow().on('resize', () => {
-        console.log('RESIZED');
         const isMaximized = getWindow().isMaximized();
 
         if (isMaximized === store.getState().window.maximized) return;
@@ -59,9 +60,14 @@ export default store => {
 };
 
 function handleIPCAction(action) {
+    let handled = true;
     switch (action.type) {
         case DOWNLOAD_VIDEO:
             ipcRenderer.send(SERVER_DO_VIDEO_DOWNLOAD, action.payload);
+            break;
+        case REMOVE_VIDEO:
+            handled = false;
+            ipcRenderer.send(SERVER_DO_REMOVE_VIDEO, action.payload);
             break;
         case CHANGE_SAVE_FOLDER:
             ipcRenderer.send(SERVER_CHANGE_SAVE_FOLDER, action.payload);
@@ -78,10 +84,10 @@ function handleIPCAction(action) {
         case CLOSE_WINDOW:
             getWindow().close();
             break;
-        default: return false;
+        default: handled = false;
     }
 
-    return true;
+    return handled;
 }
 
 // instead of getCurrentWindow due to waiting to show browser window until it's loaded

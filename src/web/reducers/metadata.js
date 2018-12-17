@@ -1,6 +1,7 @@
 import {
     VIDEO_ACTION_ADDED,
-    VIDEO_ACTION_METADATA_RECEIVED
+    VIDEO_ACTION_METADATA_RECEIVED,
+    REMOVE_VIDEO
 } from '../actions/action_types';
 
 const DEFAULT_STATE = {}; // [id]: { url, title, thumbnail }
@@ -16,6 +17,11 @@ export default (state = DEFAULT_STATE, action) => {
             const { id, title, thumbnail, time, size } = action.payload;
             const video = { ...state[id], title, thumbnail, time, size };
             return { ...state, [id]: video };
+        }
+        case REMOVE_VIDEO: {
+            const newState = { ...state };
+            delete newState[action.payload];
+            return newState;
         }
         default:
             return state;

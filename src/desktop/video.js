@@ -6,6 +6,8 @@ export default class Video {
         this.title = info.title;
         this.thumbnail = info.thumbnail_url;
         this.image = undefined;
+        this.stream = undefined;
+        this.tempPath = '';
         this.time = secondsToTimeFormat(info.length_seconds);
         this.size = '0 MB';
     }
@@ -13,6 +15,14 @@ export default class Video {
     _downloadThumbnail() {
         if (!this.thumbnail) return;
         // TODO: this.image = ...
+    }
+
+    setStream(stream) {
+        this.stream = stream;
+    }
+
+    setTempPath(tempPath) {
+        this.tempPath = tempPath;
     }
 
     setSize(sizeKB = 0) {

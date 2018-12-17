@@ -1,33 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
+import { removeVideo } from '../actions';
 import { EmptyDisplay } from './video-downloads/EmptyDisplay';
 import { VideoItem } from './video-downloads/VideoItem';
 
-class VideoDownloads extends Component {
+const VideoDownloads = ({ videos, metadata, progress, removeVideo }) => {
+    const hasDownloads = videos.length > 0;
+    const downloadItems = hasDownloads
+        ? videos.map(id => <VideoItem
+            key={id}
+            metadata={metadata[id]}
+            progress={progress[id]}
+            onRemove={() => removeVideo(id)} />
+        )
+        : <EmptyDisplay />;
 
-    render() {
-        const ids = this.props.videos;
-        const metadata = this.props.metadata;
-        const progress = this.props.progress;
+    const classes = classNames('video-downloads', {
+        'video-downloads--active': hasDownloads,
+        'video-downloads--empty': !hasDownloads
+    });
 
-        const hasDownloads = ids.length > 0;
+    return (
+        <div className={classes} >
+            {downloadItems}
+        </div >
+    );
+};
 
-        const downloadItems = hasDownloads
-            ? ids.map(id => <VideoItem key={id} metadata={metadata[id]} progress={progress[id]} />)
-            : <EmptyDisplay />;
-
-        const classes = classNames('video-downloads', {
-            'video-downloads--active': hasDownloads,
-            'video-downloads--empty': !hasDownloads
-        });
-        return (
-            <div className={classes}>
-                {downloadItems}
-            </div>
-        );
-    }
-}
-
-export default connect(state => state)(VideoDownloads);
+export default connect(state => state, { removeVideo })(VideoDownloads);

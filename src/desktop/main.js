@@ -13,7 +13,8 @@ import {
     SERVER_VIDEO_DOWNLOAD_PROGRESS,
     SERVER_VIDEO_DOWNLOAD_ERROR,
     SERVER_VIDEO_DOWNLOAD_COMPLETED,
-    SERVER_SAVE_FOLDER_CHANGED
+    SERVER_SAVE_FOLDER_CHANGED,
+    SERVER_DO_REMOVE_VIDEO
 } from '@shared/events';
 import * as config from '@shared/config';
 
@@ -68,6 +69,11 @@ ipcMain.on(SERVER_CHANGE_SAVE_FOLDER, () => {
     saveFolder && saveFolder.length && config.setSaveFolder(saveFolder[0]);
 });
 
+ipcMain.on(SERVER_DO_REMOVE_VIDEO, (_, id) => {
+    if (!videoManager) throw new Error('Video manager doesn\'t exist');
+    videoManager.removeVideo(id);
+});
+
 app.on('window-all-closed', () => app.quit());
 
 function onVideoEvent(event, data) {
@@ -111,6 +117,7 @@ function onVideoEvent(event, data) {
 
 function send(evt, data) {
     if (!mainWindow) throw new Error(`Trying to fire ${evt} when no window available`);
+    console.log(`Emitting ${evt}: ${JSON.stringify(data)}`);
     mainWindow.webContents.send(evt, data);
 }
 
