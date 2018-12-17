@@ -20,7 +20,7 @@ import {
 } from '@shared/events';
 import * as config from '@shared/config';
 
-const FOLDER_OUTPUT_NAME = 'media-downloader';
+const FOLDER_OUTPUT_NAME = 'Youtube Downloader';
 config.setIfNotDefined({
     [config.SAVE_FOLDER]: path.join(app.getPath('music'), FOLDER_OUTPUT_NAME),
     [config.TEMP_FOLDER]: path.join(app.getPath('temp'), FOLDER_OUTPUT_NAME)
@@ -38,16 +38,18 @@ if (!fs.existsSync(config.getSaveFolder())) {
 
 let mainWindow, videoManager;
 app.on('ready', () => {
+
     mainWindow = new BrowserWindow({
         width: 950,
         height: 610,
         backgroundColor: '#FFFFFFFF',
         frame: true,
-
+        icon: path.join(__dirname, 'assets', 'ellie.png'),
         minWidth: 950,
         minHeight: 630,
         show: false
     });
+    mainWindow.setOverlayIcon(path.join(__dirname, 'assets', 'ellie.png'), 'Isn\'t Ellie the cutest!');
     mainWindow.setMenu(null);
     mainWindow.once('ready-to-show', () => mainWindow.show());
     mainWindow.on('close', () => app.quit());

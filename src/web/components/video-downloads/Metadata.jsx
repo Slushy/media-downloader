@@ -4,7 +4,7 @@ import classNames from 'classnames';
 export default ({ metadata }) => {
     const title = metadata.title || metadata.url;
     const hasMetadata = !!metadata.time || !!metadata.size;
-
+    
     const titleClasses = classNames('video-metadata__title', {
         'video-metadata__title--full': !hasMetadata
     });

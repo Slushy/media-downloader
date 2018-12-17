@@ -1,6 +1,6 @@
 import Conf from 'conf';
 const config = new Conf({
-    projectName: 'media-downloader'
+    projectName: 'Youtube Downloader'
 });
 
 export const SAVE_FOLDER = 'saveFolder';

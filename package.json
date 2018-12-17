@@ -1,7 +1,7 @@
 {
     "name": "media-downloader",
-    "version": "0.0.0",
-    "description": "A react-based electron desktop app for downloading youtube video and audio",
+    "version": "1.0.0",
+    "description": "An app to download and convert Youtube videos to MP3",
     "author": "Brandon Porter <brandon.porter18@gmail.com>",
     "license": "ISC",
     "main": "dist/main.js",
@@ -33,6 +33,7 @@
         "test": "run-s build",
         "watch": "npm-run-all clean -p copy \"lint --watch\" \"compile --watch\""
     },
+    "productName": "Youtube Downloader",
     "build": {
         "appId": "com.github.slushy.media-downloader",
         "files": [

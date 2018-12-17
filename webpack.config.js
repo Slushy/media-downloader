@@ -62,7 +62,7 @@ module.exports = [
                 inject: false,
                 template: require('html-webpack-template'),
                 appMountId: 'root',
-                title: "Media Downloader"
+                title: "Youtube Downloader"
             })
         ]
     })
